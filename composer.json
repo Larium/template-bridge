@@ -1,0 +1,36 @@
+{
+    "name": "larium/template-bridge",
+    "description": "Template engine bridge for various template engines.",
+    "keywords": ["template", "view", "engine", "bridge"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Kollaros",
+            "email": "andreas@larium.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~8.2.4",
+        "twig/twig": "~2.11.3",
+        "liquid/liquid": "1.4.15"
+    },
+    "suggest": {
+        "twig/twig": "To bridge with Twig template engine",
+        "liquid/liquid": "To bridge with Liquid template engine"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Larium\\Bridge\\Template\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Larium\\Bridge\\Template\\": "tests/"
+        }
+    }
+}
