@@ -12,8 +12,14 @@ use Twig\TwigFilter;
 
 class TwigTemplateTest extends TestCase
 {
+    /**
+     * @var string
+     */
     private $templatePath;
 
+    /**
+     * @var Template
+     */
     private $template;
 
     public function setUp(): void
@@ -31,6 +37,20 @@ class TwigTemplateTest extends TestCase
         $path = reset($paths);
 
         $this->assertEquals($this->templatePath, $path);
+    }
+
+    public function testShouldAddPath(): void
+    {
+        try {
+            $this->template->render('test.html.twig', ['testVariable' => 'Hello World!']);
+        } catch (\Twig\Error\LoaderError $e) {
+            $this->assertInstanceOf(\Twig\Error\LoaderError::class, $e);
+        }
+
+        $this->template->addPath(__DIR__ . '/templates/other');
+        $result = $this->template->render('test.html.twig', ['testVariable' => 'Hello World!']);
+
+        $this->assertEquals('<div>Hello World!</div>', $result);
     }
 
     public function testTwigBridgeShouldRender(): void

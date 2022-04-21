@@ -16,4 +16,6 @@ interface Template
     public function disableCache(): void;
 
     public function setCache(Cache $cache): void;
+
+    public function addPath(string $path): void;
 }

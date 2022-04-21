@@ -12,12 +12,21 @@ use Twig\TwigFilter;
 
 class TwigTemplate implements Template
 {
+    /**
+     * @var Environment
+     */
     private $engine;
+
+    /**
+     * @var FilesystemLoader
+     */
+    private $fileSystem;
 
     public function __construct(string $path)
     {
+        $this->fileSystem = new FilesystemLoader($path);
         $this->engine = new Environment(
-            new FilesystemLoader($path)
+            $this->fileSystem
         );
     }
 
@@ -41,5 +50,10 @@ class TwigTemplate implements Template
     public function setCache(Cache $cache): void
     {
         $this->engine->setCache($cache);
+    }
+
+    public function addPath(string $path): void
+    {
+        $this->fileSystem->addPath($path);
     }
 }
