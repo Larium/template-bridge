@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Larium\Bridge\Template;
 
 use Larium\Bridge\Template\Cache\Cache;
 use Larium\Bridge\Template\Filter\Filter;
+use Twig\Cache\CacheInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
@@ -22,12 +23,9 @@ class TwigTemplate implements Template
      */
     private $fileSystem;
 
-    public function __construct(string $path)
+    public function __construct(string $path, ?Environment $twig = null)
     {
-        $this->fileSystem = new FilesystemLoader($path);
-        $this->engine = new Environment(
-            $this->fileSystem
-        );
+        $twig === null ? $this->setUpNew($path) : $this->setUpExisting($path, $twig);
     }
 
     public function render(string $template, array $params = []): string
@@ -49,11 +47,29 @@ class TwigTemplate implements Template
 
     public function setCache(Cache $cache): void
     {
-        $this->engine->setCache($cache);
+        /** @var CacheInterface $engineCache */
+        $engineCache = $cache->getCacheImplementation();
+        $this->engine->setCache($engineCache);
     }
 
     public function addPath(string $path): void
     {
         $this->fileSystem->addPath($path);
+    }
+
+    private function setUpExisting(string $path, Environment $twig): void
+    {
+        $this->engine = $twig;
+        $loader = $this->engine->getLoader();
+        if ($loader instanceof FilesystemLoader) {
+            $loader->addPath($path);
+            $this->fileSystem = $loader;
+        }
+    }
+
+    private function setUpNew(string $path): void
+    {
+        $this->fileSystem = new FilesystemLoader($path);
+        $this->engine = new Environment($this->fileSystem);
     }
 }
