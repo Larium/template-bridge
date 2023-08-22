@@ -1,5 +1,5 @@
-build
-vendor
+/build
+/vendor
 .DS_Store
-.phpunit.result.cache
+.phpunit.cache
 .vscode
