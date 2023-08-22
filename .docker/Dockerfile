@@ -11,9 +11,6 @@ RUN apt-get update && \
     docker-php-source delete && \
     rm -r /tmp/* /var/cache/*
 
-COPY ./.docker/php-ini-overrides.ini /usr/local/etc/php/conf.d/99-overrides.ini
-COPY ./.docker/xdebug.ini /usr/local/etc/php/conf.d/15-xdebug.ini
-
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
      && php composer-setup.php \
      && php -r "unlink('composer-setup.php');" \
