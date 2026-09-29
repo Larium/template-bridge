@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Larium\Bridge\Template;
 
@@ -9,7 +9,7 @@ use Larium\Bridge\Template\Filter\Filter;
 
 interface Template
 {
-    public function render(string $template, array $params = []);
+    public function render(string $template, array $params = []): string;
 
     public function addFilter(Filter $filter): void;
 
